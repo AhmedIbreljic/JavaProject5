@@ -1,0 +1,113 @@
+// Ahmed Ibreljic 2019-2020 All rights reserved. 
+class Main {
+  public static void main(String[] args) throws Exception
+  {
+    // A valid integer range was created for range 1. It does not actually throw an expection like the others because of smooth and easy range. 
+    System.out.println(); 
+    boolean range1exception = false;
+    try {
+      ValidatedIntegerRange range1 = new ValidatedIntegerRange (1,2);
+      range1.Print ();
+    }
+    catch (Exception e)
+    {
+      System.out.println("range 1 threw an exception (expected");
+      range1exception = true; 
+    }
+    // This is an invalid interger range since floor > ceiling, range in of itself already looks very wrong. An exception is thrown for this case. 
+    boolean range2exception = false;
+    try {
+      ValidatedIntegerRange range2 = new ValidatedIntegerRange (7,6);
+      range2.Print ();
+    }
+    catch (Exception e)
+    {
+      System.out.println("range 2 threw an exception (expected)");
+      range2exception = true;
+    }
+
+    // Similar to range2, I set up an invalid interger range where minimum < global minimum. Hence, the method throws an exception for the instance. 
+    boolean range3exception = false;
+    try {
+      ValidatedIntegerRange range3 = new ValidatedIntegerRange (-3,5);
+      range3.Print ();
+    }
+    catch (Exception e)
+    {
+      System.out.println("range 3 threw an exception (expected)");
+      range3exception = true;
+    }
+    // For range4,  maximum < global maximum is created for the range. However, although I had to make an invalid interger range, the method throws a specific exception where it prints that it is expected. 
+    boolean range4exception = false;
+    try {
+      ValidatedIntegerRange range4 = new ValidatedIntegerRange (5,9005);
+      range4.Print ();
+    }
+    catch (Exception e)
+    {
+      System.out.println("range 4 threw an exception (expected)");
+      range4exception = true;
+    }
+
+    // Create a valid integer range...
+    boolean range5exception = false;
+    try {
+      ValidatedIntegerRange range5 = new ValidatedIntegerRange (1,-10);
+      range5.minimum = 3;
+      // e.g. Analyzer.UseRange(range5);
+
+      // I changed the mutation so that it throws an exception
+
+      // Mutation of the range for range5 overall was changed to 1, it throws an exception because the range.minimum is set to 3 
+    }
+    catch (Exception e)
+    {
+      System.out.println("range 5 threw an exception (expected)");
+      range5exception = true;
+    }
+
+    // I tried numerous global maximums and minimum overall really messing around with the range's validity, including even some hexadecimals. Its really cool but sadly we wont have it on the ap csa exam
+    // ValidatedIntegerRange.global_minimum = 10000;
+    // ValidatedIntegerRange.global_maximum = 0xDEADBEEF; :)
+
+  }
+}
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class ValidatedIntegerRange
+{
+  public int minimum;
+  public int maximum;
+  final static int global_maximum = 9000;
+  final static int global_minimum = 0;
+  // Since public, I tried private which did the same thing but however declaring it final actually prohibits the value from being changed entirely. 
+
+  public ValidatedIntegerRange (int minimum, int maximum) throws Exception
+  {
+    this.minimum = minimum;
+    this.maximum = maximum;
+
+    ValidateData ();
+  }
+
+  public void Print ()
+  {
+    System.out.println ("(" + minimum + ".." + maximum + ")");
+  }
+  
+  private void ValidateData () throws Exception
+  {
+    if (minimum >= maximum)
+    {
+      throw new Exception ("Data is invalid");
+    }
+    if (minimum < global_minimum)
+    {
+      throw new Exception ("Data is invalid");
+    }
+    if (maximum >= global_maximum)
+    {
+      throw new Exception ("Data is invalid"); 
+    }
+}
